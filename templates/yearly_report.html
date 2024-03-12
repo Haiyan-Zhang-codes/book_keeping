@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>yearly report</h1>
+    <table>
+        <tr>
+            <th>Transaction Type</th>
+            <th>Category</th>
+            <th>Total amount by category</th>
+            <th>Total amount by transaction type</th>
+        </tr>       
+        <tr>
+            <td rowspan="{{ income_count }}">Income</td>
+            {% for categoryData in yearly_data_category %}
+            {% if categoryData.type == "Income" %}                
+            <td>{{ categoryData.category }}</td>
+            <td>{{ categoryData.total_amount }}</td>                          
+            {% endif %}
+            {% endfor %}    
+            <td rowspan="{{ income_count }}">
+                {% for typeData in yearly_data_type %}
+                {% if typeData.type == "Income" %}
+                    {{ typeData.total_amount }}
+                {% endif %}
+                {% endfor %} 
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="{{ expense_count }}">Expense</td>
+            {% for categoryData in yearly_data_category %}
+            {% if categoryData.type == "Expense" %}
+                            
+            <td>{{ categoryData.category }}</td>
+            <td>{{ categoryData.total_amount }}</td>               
+            
+            {% endif %}
+            {% endfor %}
+            <td rowspan="{{ expense_count }}">
+                {% for typeData in yearly_data_type %}
+                {% if typeData.type == "Expense" %}
+                    {{ typeData.total_amount }}
+                {% endif %}
+                {% endfor %} 
+            </td>
+        </tr>
+              
+        <tr>
+            <td>Balance</td>
+            <td>{{balance}}</td>
+        </tr>
+        
+    </table>
+</body>
+</html>

@@ -9,7 +9,7 @@ cur = conn.cursor()
 
 # Define a schema
 cur.execute('''
-    SELECT sql FROM sqlite_master WHERE type='table' AND name='users';
+    SELECT sql FROM sqlite_master WHERE type='table' AND name='book_keeping';
 ''')
 
 schema_result = cur.fetchone()

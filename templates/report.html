@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Report
+{% endblock %}
+
+{% block main %}
+    <form action="/report" method="POST">
+        <label for="year">Select a year for your yearly report</label>
+        <select id="year" name="year" >
+            <option disabled selected value="">Year</option>
+        {% for year in years %}
+            <option value="{{year}}">{{year}}</option>       
+        {% endfor %}
+        </select>
+        <button name="action" value="yearly" type="submit">Submit</button>
+        <label>Select a month for your monthly report</label>
+        <input type="month" name="month">
+        <button name="action" value="monthly" type="submit">Submit</button>
+    </form>
+{% if action == "yearly" %}
+    {% include 'yearly_report.html' %}
+{% elif action == "monthly" %}
+    {% include 'monthly_report.html' %}
+{% endif %}
+{% endblock %}
+

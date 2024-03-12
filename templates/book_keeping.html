@@ -5,6 +5,19 @@
 {% endblock %}
 
 {% block main %}
-    <h1>TEST</h1>
+    <form action="/book_keeping" method="POST">
+        <input autocomplete="off" autofocus type="text" name="amount" placeholder="Enter the amount">
+        <select name="category">
+            {% for category in categories %}
+            <option value="{{category}}">{{category}}</option>
+            {% endfor %}
+        </select>
+        <select name="type">
+            {% for type in types %}
+            <option value="{{type}}">{{type}}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Save</button>
+    </form>
 
 {% endblock %}
