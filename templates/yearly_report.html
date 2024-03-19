@@ -6,54 +6,60 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>yearly report</h1>
-    <table>
+    <h2 class="mt-3 mb-3">Yearly Report</h2>
+    <table class="table table-striped text-end align-middle">
         <tr>
             <th>Transaction Type</th>
             <th>Category</th>
             <th>Total amount by category</th>
             <th>Total amount by transaction type</th>
-        </tr>       
-        <tr>
-            <td rowspan="{{ income_count }}">Income</td>
-            {% for categoryData in yearly_data_category %}
-            {% if categoryData.type == "Income" %}                
-            <td>{{ categoryData.category }}</td>
-            <td>{{ categoryData.total_amount }}</td>                          
-            {% endif %}
-            {% endfor %}    
-            <td rowspan="{{ income_count }}">
-                {% for typeData in yearly_data_type %}
-                {% if typeData.type == "Income" %}
-                    {{ typeData.total_amount }}
-                {% endif %}
-                {% endfor %} 
-            </td>
         </tr>
+    {% set ns = namespace(added_income_label = true, added_expense_label = true) %}
+    {% for categoryData_income in yearly_data_category_income %}
         <tr>
-            <td rowspan="{{ expense_count }}">Expense</td>
-            {% for categoryData in yearly_data_category %}
-            {% if categoryData.type == "Expense" %}
-                            
-            <td>{{ categoryData.category }}</td>
-            <td>{{ categoryData.total_amount }}</td>               
-            
-            {% endif %}
-            {% endfor %}
-            <td rowspan="{{ expense_count }}">
-                {% for typeData in yearly_data_type %}
-                {% if typeData.type == "Expense" %}
-                    {{ typeData.total_amount }}
-                {% endif %}
-                {% endfor %} 
-            </td>
+            {% if ns.added_income_label %}
+                <td rowspan="{{ income_count_yearly }}">Income</td>
+                <td>{{ categoryData_income.category }}</td>
+                <td>{{ categoryData_income.total_amount }}</td>
+                <td rowspan="{{ income_count_yearly }}">
+                    {% for typeData in yearly_data_type %}
+                    {% if typeData.type == "Income" %}
+                        {{ typeData.total_amount }}
+                    {% endif %}
+                    {% endfor %} 
+                </td>
+                {% set ns.added_income_label = false %}
+            {% else %}
+                <td>{{ categoryData_income.category}}</td>
+                <td>{{ categoryData_income.total_amount }}</td>
+            {% endif %}       
         </tr>
-              
+    {% endfor %}
+    {% for categoryData_expense in yearly_data_category_expense %}    
         <tr>
-            <td>Balance</td>
-            <td>{{balance}}</td>
+            {% if ns.added_expense_label %}
+                <td rowspan="{{ expense_count_yearly }}">Expense</td>
+                <td>{{ categoryData_expense.category }}</td>
+                <td>{{ categoryData_expense.total_amount }}</td>
+                <td rowspan="{{ expense_count_yearly }}">
+                    {% for typeData in yearly_data_type %}
+                    {% if typeData.type == "Expense" %}
+                        {{ typeData.total_amount }}
+                    {% endif %}
+                    {% endfor %} 
+                </td>
+                {% set ns.added_expense_label = false %}
+            {% else %}
+                <td>{{ categoryData_expense.category}}</td>
+                <td>{{ categoryData_expense.total_amount }}</td>
+            {% endif %}       
         </tr>
         
+    {% endfor %} 
+        <tr>
+            <td class="border-0 fw-bold text-end" colspan="3">Balance</td>
+            <td class="border-0 text-end">{{balance_yearly}}</td>
+        </tr>
     </table>
 </body>
 </html>

@@ -9,16 +9,12 @@ cur = conn.cursor()
 
 # Define a schema
 cur.execute('''
-    SELECT sql FROM sqlite_master WHERE type='table' AND name='book_keeping';
+    SELECT * FROM users  ;
 ''')
 
-schema_result = cur.fetchone()
-if schema_result:
-    schema_sql = schema_result[0]
-    print("Schema of 'users' table:")
-    print(schema_sql)
-else:
-    print("Table 'users' does not exist in the database.")
+results = cur.fetchall()
+for result in results:
+    print(result)
 
 
 conn.close()

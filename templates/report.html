@@ -5,23 +5,50 @@
 {% endblock %}
 
 {% block main %}
-    <form action="/report" method="POST">
-        <label for="year">Select a year for your yearly report</label>
-        <select id="year" name="year" >
-            <option disabled selected value="">Year</option>
-        {% for year in years %}
-            <option value="{{year}}">{{year}}</option>       
-        {% endfor %}
-        </select>
-        <button name="action" value="yearly" type="submit">Submit</button>
-        <label>Select a month for your monthly report</label>
-        <input type="month" name="month">
-        <button name="action" value="monthly" type="submit">Submit</button>
-    </form>
-{% if action == "yearly" %}
-    {% include 'yearly_report.html' %}
-{% elif action == "monthly" %}
-    {% include 'monthly_report.html' %}
-{% endif %}
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <form action="/report" method="POST">
+                    <div row g-3 align-items-center>
+                        <div class="col-auto mb-3">
+                            <select id="year" name="year" class="form-select" aria-describedby="selectYear" required>
+                                <option disabled selected value="">Year</option>
+                            {% for year in years %}
+                                <option value="{{year}}">{{year}}</option>       
+                            {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-auto mb-3">
+                            <span id="selectYear" class="form-text">
+                                Select a year for your yearly report
+                            </span>
+                        </div>
+                    </div>                   
+                    <button name="action" value="yearly" type="submit" class="btn btn-primary mb-3">Submit</button>
+                </form>
+                <form action="/report" method="POST">
+                    <div row g-3 align-items-center>
+                        <div class="col-auto mb-3">
+                            <input type="month" name="month" class="form-control" aria-describedby="selectMonth" required>
+                        </div>
+                        <div class="col-auto mb-3">
+                            <span id="selectMonth" class="form-text">
+                                Select a month for your monthly report
+                            </span>
+                        </div>
+                    </div>
+                    <button name="action" value="monthly" type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                
+            </div>
+            <div class="col-md-8">
+                {% if action == "yearly" %}
+                    {% include 'yearly_report.html' %}
+                {% elif action == "monthly" %}
+                    {% include 'monthly_report.html' %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
 

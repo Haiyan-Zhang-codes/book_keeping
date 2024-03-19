@@ -5,19 +5,91 @@
 {% endblock %}
 
 {% block main %}
-    <form action="/book_keeping" method="POST">
-        <input autocomplete="off" autofocus type="text" name="amount" placeholder="Enter the amount">
-        <select name="category">
-            {% for category in categories %}
-            <option value="{{category}}">{{category}}</option>
-            {% endfor %}
-        </select>
-        <select name="type">
-            {% for type in types %}
-            <option value="{{type}}">{{type}}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Save</button>
-    </form>
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <form action="/book_keeping" method="POST">                                         
+                        <div class="mb-3">
+                            <input autocomplete="off" autofocus type="text" name="amount" placeholder="Enter the amount" class="form-control" required>
+                        </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <select name="category" class="form-select" required>
+                                <option disabled selected value="">Category</option>
+                                {% for category in categories %}
+                                <option value="{{category}}">{{category}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select name="type" class="form-select" required>
+                                <option disabled selected value="">Type</option>
+                                {% for type in types %}
+                                <option value="{{type}}">{{type}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col">
+                            <button id="save" name="action" type="submit" value="save" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+                <form action="/book_keeping" method="POST">
+                    <div class="d-flex flex-column">
+                        <input id="add_category" type="text" name="add_category" style="display:none;" class="form-control">
+                        <button id="show_input" class="btn btn-primary">Add a Category</button>
+                        <button id="save_category" class="btn btn-primary mt-3" name="action" type="submit" value="save_category" style="display: none;">Save the Category</button>      
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8">
+                {% if action == "save"%}
+                <table class="table table-striped">
+                    <th colspan="3">Income</th>
+                    <tr>
+                        <td>Category</td>
+                        <td>Amount</td>
+                        <td>Date</td>
+                    </tr>
+                    {% for income in list_income %}
+                    <tr>
+                        <td>{{income.category}}</td>
+                        <td>{{income.amount}}</td>
+                        <td>{{income.year}}-{{income.month}}-{{income.date}}</td>
+                    </tr>
+                    {% endfor %}
+                    <th colspan="3">Expense</th>
+                    <tr>
+                        <td>Category</td>
+                        <td>Amount</td>
+                        <td>Date</td>
+                    </tr>
+                    {% for expense in list_expense %}
+                    <tr>
+                        <td>{{expense.category}}</td>
+                        <td>{{expense.amount}}</td>
+                        <td>{{expense.year}}-{{expense.month}}-{{expense.date}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+       document.addEventListener("DOMContentLoaded", function() {
+        var showInputBtn = document.getElementById("show_input");
+        var addCategoryInput = document.getElementById("add_category");
+        var saveCategoryBtn = document.getElementById("save_category");
+        showInputBtn.addEventListener("click", function(e) {
+        e.preventDefault();
+        showInputBtn.style.display = "none";
+        addCategoryInput.style.display = "block";
+        saveCategoryBtn.style.display = "block"; 
+    });
+});
 
+    </script>
 {% endblock %}
